@@ -124,7 +124,7 @@ for (let i = 0; i < NUM_USERS; i++) {
 
 const serializePost = (post) => ({
   ...post,
-  user: post.user.id,
+  user: post?.user?.id,
 })
 
 /* MSW REST API Handlers */
@@ -135,7 +135,7 @@ export const handlers = [
     return res(ctx.delay(ARTIFICIAL_DELAY_MS), ctx.json(posts))
   }),
   rest.post('/fakeApi/posts', function (req, res, ctx) {
-    const data = req.body
+    const data = req.body.post
 
     if (data.content === 'error') {
       return res(
@@ -294,7 +294,7 @@ function generateRandomNotifications(since, numNotifications, db) {
       id: nanoid(),
       date: faker.date.between(pastDate, now).toISOString(),
       message: template,
-      user: user.id,
+      user: user?.id,
     }
   })
 
